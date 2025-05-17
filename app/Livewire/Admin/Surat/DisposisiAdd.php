@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Admin\Surat;
 
+use App\Services\FonnteService;
+use Illuminate\Support\Facades\App;
 use App\Models\Bidang;
 use App\Models\Disposisi;
 use App\Models\Pegawai;
@@ -127,7 +129,7 @@ class DisposisiAdd extends Component
                 'surat_masuk_id' => 'required|exists:surat_masuk,id',
                 'bidang_tujuan' => 'required|exists:bidang,id',
                 'pegawai_tujuan' => 'required|exists:pegawai,id',
-                'sifat' => 'required|in:segera,biasa',
+                'sifat' => 'required',
                 'tanggal_disposisi' => 'required|date',
                 'catatan' => 'required',
             ], [
@@ -200,7 +202,7 @@ class DisposisiAdd extends Component
                 'surat_masuk_id' => 'required|exists:surat_masuk,id',
                 'bidang_tujuan' => 'required|exists:bidang,id',
                 'pegawai_tujuan' => 'required|exists:pegawai,id',
-                'sifat' => 'required|in:segera,biasa',
+                'sifat' => 'required',
                 'tanggal_disposisi' => 'required|date',
                 'catatan' => 'required',
             ], [
@@ -294,5 +296,46 @@ class DisposisiAdd extends Component
         $this->tanggal_disposisi = Carbon::now()->format('Y-m-d');
         $this->catatan = '';
         $this->pegawaiList = [];
+    }
+
+    public function share($id)
+    {
+        $disposisi = Disposisi::with(['suratMasuk', 'pegawaiTujuan'])->findOrFail($id);
+        $pegawai = $disposisi->pegawaiTujuan;
+        $surat = $disposisi->suratMasuk;
+
+        if (!$pegawai || !$pegawai->no_hp) {
+            $this->dispatch('failed-message', 'Nomor HP pegawai tidak tersedia.');
+            return;
+        }
+
+        $url = config('app.url') . '/surat/' . $surat->file;
+        $tanggal = \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->locale('id')->translatedFormat('d F Y');
+
+        $message = 
+            // "{$url}\n\n" .
+            "📄 *DISPOSISI SURAT MASUK*\n\n" .
+            "Halo *{$pegawai->nama_lengkap}*,\n\n" .
+            "Anda menerima disposisi surat dengan detail:\n\n" .
+            "• Perihal: {$surat->perihal}\n" .
+            "• Tanggal Disposisi: {$tanggal}\n" .
+            "• Sifat: {$disposisi->sifat}\n\n" .
+            // "• File Surat:\n {$url}\n\n" .
+            // "• File Surat:\n {$url}" .
+            "File Surat:\n" .
+            "{$url}\n\n" .
+            "Silakan segera ditindaklanjuti.\n\n" .
+            "Terima kasih."
+        ;
+
+
+        $fonnte = App::make(FonnteService::class);
+        $sent = $fonnte->sendMessage($pegawai->no_hp, $message);
+
+        if ($sent) {
+            $this->dispatch('success-message', 'Notifikasi WA berhasil dikirim.');
+        } else {
+            $this->dispatch('failed-message', 'Gagal mengirim notifikasi WA.');
+        }
     }
 }

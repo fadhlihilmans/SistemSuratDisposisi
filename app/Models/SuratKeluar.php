@@ -40,7 +40,7 @@ class SuratKeluar extends Model
 
     public function persetujuan()
     {
-        return $this->hasOne(PersetujuanSuratKeluar::class);
+        return $this->hasMany(PersetujuanSuratKeluar::class);
     }
 
     public function getStatusBadge()

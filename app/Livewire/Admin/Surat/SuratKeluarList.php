@@ -75,13 +75,14 @@ class SuratKeluarList extends Component
                 'perihal' => 'required|string|max:255',
                 'tujuan' => 'required|string|max:255',
                 'tanggal_pengajuan' => 'required|date',
-                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,xls,xlsx',
+                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,xls,xlsx|max:512',
             ],[
                 'kode_surat_id.required' => 'Kode Surat wajib diisi',
                 'perihal.required' => 'Perihal Surat wajib diisi',
                 'tujuan.required' => 'Tujuan Surat wajib diisi',
                 'tanggal_pengajuan.required' => 'Tanggal Pengajuan wajib diisi',
                 'file.mimes' => 'File harus berupa pdf, doc, docx, jpg, jpeg, png, webp, xls, xlsx',
+                'file.max' => 'Ukuran file maksimal 500kb',
             ]);
     
             // $kode = KodeSurat::find($this->kode_surat_id)->kode;
@@ -144,13 +145,14 @@ class SuratKeluarList extends Component
                 'perihal' => 'required|string|max:255',
                 'tujuan' => 'required|string|max:255',
                 'tanggal_pengajuan' => 'required|date',
-                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,xls,xlsx',
+                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,xls,xlsx|max:512',
             ],[
                 'kode_surat_id.required' => 'Kode Surat wajib diisi',
                 'perihal.required' => 'Perihal Surat wajib diisi',
                 'tujuan.required' => 'Tujuan Surat wajib diisi',
                 'tanggal_pengajuan.required' => 'Tanggal Pengajuan wajib diisi',   
                 'file.mimes' => 'File harus berupa pdf, doc, docx, jpg, jpeg, png, webp, xls, xlsx',
+                'file.max' => 'Ukuran file maksimal 500kb',
             ]);
     
             $data = SuratKeluar::findOrFail($this->selectedId);
@@ -214,7 +216,7 @@ class SuratKeluarList extends Component
 
     public function detail($id)
     {
-        $this->resetForm(); // bersihkan form lain
+        $this->resetForm(); 
         $this->formDetail = true;
         $this->surat_keluar_id = $id;
     }

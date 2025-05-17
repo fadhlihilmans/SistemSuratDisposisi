@@ -180,6 +180,18 @@
                                             <input type="radio" name="sifat" value="segera" class="selectgroup-input" wire:model.defer="sifat">
                                             <span class="selectgroup-button">Segera</span>
                                         </label>
+                                        <label class="selectgroup-item">
+                                            <input type="radio" name="sifat" value="sangat_segera" class="selectgroup-input" wire:model.defer="sifat">
+                                            <span class="selectgroup-button">Sangat Segera</span>
+                                        </label>
+                                        <label class="selectgroup-item">
+                                            <input type="radio" name="sifat" value="rahasia" class="selectgroup-input" wire:model.defer="sifat" checked>
+                                            <span class="selectgroup-button">Rahasia</span>
+                                        </label>
+                                        <label class="selectgroup-item">
+                                            <input type="radio" name="sifat" value="sangat_rahasia" class="selectgroup-input" wire:model.defer="sifat">
+                                            <span class="selectgroup-button">Sangat Rahasia</span>
+                                        </label>
                                     </div>
                                     @error('sifat') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
@@ -293,8 +305,14 @@
                                             <td>
                                                 @if($disposisi->sifat == 'segera')
                                                     <span class="badge badge-danger">Segera</span>
-                                                @else
+                                                @elseif($disposisi->sifat == 'biasa')
                                                     <span class="badge badge-info">Biasa</span>
+                                                @elseif($disposisi->sifat == 'sangat_segera')
+                                                    <span class="badge badge-info">Sangat Segera</span>
+                                                @elseif($disposisi->sifat == 'rahasia')
+                                                    <span class="badge badge-info">Rahasia</span>
+                                                @elseif($disposisi->sifat == 'sangat_rahasia')
+                                                    <span class="badge badge-info">Sangat Rahasia</span>
                                                 @endif
                                             </td>
                                         </tr>
@@ -382,13 +400,22 @@
                                         <td>
                                             @if($item->sifat == 'segera')
                                                 <span class="badge badge-danger">Segera</span>
-                                            @else
+                                            @elseif($item->sifat == 'biasa')
                                                 <span class="badge badge-info">Biasa</span>
+                                            @elseif($item->sifat == 'sangat_segera')
+                                                <span class="badge badge-info">Sangat Segera</span>
+                                            @elseif($item->sifat == 'rahasia')
+                                                <span class="badge badge-info">Rahasia</span>
+                                            @elseif($item->sifat == 'sangat_rahasia')
+                                                <span class="badge badge-info">Sangat Rahasia</span>
                                             @endif
                                         </td>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal_disposisi)->locale('id')->translatedFormat('d F Y') }}</td>
                                         <td>
                                             <div class="btn-group" role="group">
+                                                <button wire:click="share({{ $item->id }})" class="btn btn-sm btn-secondary">
+                                                    <i class="fas fa-paper-plane"></i>
+                                                </button>
                                                 <button wire:click="showDetail({{ $item->id }})" class="btn btn-sm btn-info">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
@@ -459,6 +486,9 @@
                         <option value="">-- Semua Sifat --</option>
                         <option value="segera">Segera</option>
                         <option value="biasa">Biasa</option>
+                        <option value="sangat_segera">Sangat Segera</option>
+                        <option value="rahasia">Rahasia</option>
+                        <option value="sangat_rahasia">Sangat Rahasia</option>
                     </select>
                 </div>
 

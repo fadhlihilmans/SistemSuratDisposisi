@@ -15,10 +15,11 @@
                 <div class="card">
                     <div class="card-header"><h4>Informasi Surat Keluar</h4></div>
                     <div class="card-body">
-
                         @php
-                            $surat = \App\Models\SuratKeluar::with(['kodeSurat', 'pegawai', 'persetujuan'])->find($surat_keluar_id);
+                            $surat = \App\Models\SuratKeluar::with(['kodeSurat', 'pegawai', 'persetujuan.pegawai'])->find($surat_keluar_id);
                         @endphp
+
+
 
                         <div class="row">
                             <div class="col-md-6">
@@ -88,7 +89,7 @@
                                     <tbody>
                                         @foreach ($surat->persetujuan as $item)
                                         <tr>
-                                            <td>{{ $item->pegawai->nama_lengkap }} ({{ $item->pegawai->nip }})</td>
+                                            <td>{{ $item->pegawai->nama_lengkap ?? '-' }} ({{ $item->pegawai->nip ?? '-'}})</td>
                                             <td>
                                                 <span class="badge badge-{{ $item->status == 'disetujui' ? 'success' : 'danger' }}">{{ ucfirst($item->status) }}</span>
                                             </td>

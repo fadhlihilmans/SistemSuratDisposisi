@@ -32,6 +32,7 @@ class SuratMasukList extends Component
 
     public function render()
     {
+        $kodeSurat = KodeSurat::orderBy('kode')->get();
         $query = SuratMasuk::with('kodeSurat')->search($this->search);
 
         if ($this->filterStatus) {
@@ -44,7 +45,7 @@ class SuratMasukList extends Component
 
         $listSuratMasuk = $query->latest()->paginate(10);
 
-        return view('livewire.admin.surat.surat-masuk-list', compact('listSuratMasuk'));
+        return view('livewire.admin.surat.surat-masuk-list', compact('listSuratMasuk', 'kodeSurat'));
     }
 
 
@@ -57,7 +58,7 @@ class SuratMasukList extends Component
                 'no_surat' => 'required|string|max:255',
                 'tanggal_masuk' => 'required|date',
                 'perihal' => 'required|string|max:255',
-                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,csv,xls,xlsx',
+                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,csv,xls,xlsx|max:512',
             ],[
                 'kode_surat_id.required' => 'Kode Surat wajib diisi',
                 'asal_surat.required' => 'Asal Surat wajib diisi',
@@ -65,6 +66,7 @@ class SuratMasukList extends Component
                 'tanggal_masuk.required' => 'Tanggal Masuk wajib diisi',
                 'perihal.required' => 'Perihal Surat wajib diisi',
                 'file.mimes' => 'File harus berupa pdf, doc, docx, jpg, jpeg, png, webp, xls, xlsx',
+                'file.max' => 'Ukuran file maksimal 500kb',
             ]);
     
             // $kode = KodeSurat::find($this->kode_surat_id)->kode;
@@ -125,7 +127,7 @@ class SuratMasukList extends Component
                 'no_surat' => 'required|string|max:255',
                 'tanggal_masuk' => 'required|date',
                 'perihal' => 'required|string|max:255',
-                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,csv,xls,xlsx',
+                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,csv,xls,xlsx|max:512',
             ],[
                 'kode_surat_id.required' => 'Kode Surat wajib diisi',
                 'asal_surat.required' => 'Asal Surat wajib diisi',
@@ -133,6 +135,7 @@ class SuratMasukList extends Component
                 'tanggal_masuk.required' => 'Tanggal Masuk wajib diisi',
                 'perihal.required' => 'Perihal Surat wajib diisi',
                 'file.mimes' => 'File harus berupa pdf, doc, docx, jpg, jpeg, png, webp, xls, xlsx',
+                'file.max' => 'Ukuran file maksimal 500kb',
             ]);
     
             $data = SuratMasuk::findOrFail($this->selectedId);

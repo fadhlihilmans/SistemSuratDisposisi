@@ -1,5 +1,6 @@
 <?php
 
+// use App\Http\Controllers\Admin\PrintPdfController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\RoleMiddleware;
@@ -53,4 +54,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         ->middleware(RoleMiddleware::class . ':super-admin,kepala'); //role: super-admin, kepala
     Route::get('/persetujuan-surat-keluar/add', \App\Livewire\Admin\Surat\PersetujuanSuratKeluarAdd::class)->name('persetujuan-surat-keluar.add')
         ->middleware(RoleMiddleware::class . ':super-admin,kepala'); //role: super-admin, kepala
+
+    //tab surat 
+    Route::get('/laporan/laporan-surat', \App\Livewire\Admin\Laporan\LaporanSurat::class)->name('laporan.laporan-surat')
+        ->middleware(RoleMiddleware::class . ':super-admin,kepala,sekretariat'); //role: super-admin, kepala, sekretariat
+    Route::get('/laporan/pdf', [\App\Http\Controllers\Admin\PrintPdfController::class, 'cetakLaporan'])->name('laporan.pdf')
+        ->middleware(RoleMiddleware::class . ':super-admin,kepala,sekretariat'); //role: super-admin, kepala, sekretariat
 });

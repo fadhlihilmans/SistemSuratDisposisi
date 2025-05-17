@@ -145,7 +145,7 @@
                         @endif
                         @if (in_array($role, ['super-admin', 'sekretariat', 'pegawai']))
                         <li class="{{ request()->routeIs('admin.disposisi.list') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('admin.disposisi.list') }}">Daftar Disposisi</a>
+                            <a class="nav-link" href="{{ route('admin.disposisi.list') }}">Daftar Disposisi Saya</a>
                         </li>
                         @endif
                         @if (in_array($role, ['super-admin', 'kepala']))
@@ -159,6 +159,21 @@
                     </ul>
                 </li>
                 @endif
+                
+                @if (in_array($role, ['super-admin', 'sekretariat', 'admin', 'kepala']))
+                    <li class="menu-header">Laporan</li>
+                    <li class="nav-item dropdown {{ request()->routeIs('admin.laporan.*') ? 'active' : '' }}">
+                        <a href="#" class="nav-link has-dropdown">
+                            <i class="fas fa-file"></i><span>Laporan</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="{{ request()->routeIs('admin.laporan.laporan-surat') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.laporan.laporan-surat') }}">Laporan Surat</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
             </ul>
         </aside>
       </div>

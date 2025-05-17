@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('surat_masuk_id')->references('id')->on('surat_masuk')->cascadeOnDelete();
             $table->foreignId('bidang_tujuan')->references('id')->on('bidang')->cascadeOnDelete()->nullable(); //tujuan bidang
             $table->foreignId('pegawai_tujuan')->references('id')->on('pegawai')->cascadeOnDelete()->nullable(); //tujuan pegawai
-            $table->enum('sifat', ['segera','biasa'])->default('biasa');
+            $table->enum('sifat', ['segera','biasa','rahasia','sangat_rahasia','sangat_segera'])->default('biasa');
             $table->date('tanggal_disposisi');
             $table->text('catatan');
             $table->timestamps();
