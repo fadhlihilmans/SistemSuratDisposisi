@@ -14,9 +14,11 @@ class SuratMasukList extends Component
 {
     use WithPagination, WithFileUploads;
 
-    public $formAdd = false, $formEdit = false, $confirmingDelete = false, $selectedId;
+    public $formAdd = false, $formEdit = false, $confirmingDelete = false, $selectedId, $formDetail = false;
     public $search = '';
-
+    public $surat;
+    public $disposisi;
+    public $disposisi_id;
     public $kode_surat_id, $asal_surat, $tanggal_masuk, $perihal, $file, $no_surat,  $status = 'belum_disposisi';
     public $old_file;
 
@@ -213,6 +215,17 @@ class SuratMasukList extends Component
         $this->filterTanggalAwal = '';
         $this->filterTanggalAkhir = '';
     }
+    public function detail($id)
+    {
+        $this->formDetail = true;
+
+        $surat = SuratMasuk::findOrFail($id);
+        $this->surat = $surat;
+
+        $this->disposisi = $surat->disposisi;
+
+        $this->disposisi_id = $surat->disposisi?->id;
+    }
 
     public function updated($property)
     {
@@ -226,6 +239,7 @@ class SuratMasukList extends Component
     {
         $this->formAdd = false;
         $this->formEdit = false;
+        $this->formDetail = false;
         $this->confirmingDelete = false;
         $this->selectedId = null;
         $this->kode_surat_id = '';

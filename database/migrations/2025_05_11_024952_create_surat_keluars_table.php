@@ -22,7 +22,6 @@ return new class extends Migration
             $table->date('tanggal_pengajuan');
             $table->enum('status', ['menunggu','disetujui','ditolak'])->default('menunggu');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

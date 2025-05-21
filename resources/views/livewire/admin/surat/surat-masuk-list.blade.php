@@ -1,5 +1,103 @@
 <div>
 
+    
+@if ($formDetail)
+<section class="section">
+    <div class="section-header">
+        <div class="section-header-back">
+            <a wire:click="resetForm" class="btn btn-icon cursor-pointer"><i class="fas fa-arrow-left"></i></a>
+        </div>
+        <h1>Detail Surat Masuk</h1>
+    </div>
+    <div class="section-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Informasi</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Detail Surat</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>No. Surat</th>
+                                            <td>{{ $surat->no_surat }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Asal Surat</th>
+                                            <td>{{ $surat->asal_surat }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tanggal Masuk</th>
+                                            <td>{{ $surat->formatted_tanggal_masuk }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Perihal</th>
+                                            <td>{{ $surat->perihal }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Lampiran</th>
+                                            <td><a href="/surat/{{ $surat->file }}" target="_blank"><i class="fas fa-download"></i> download</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Detail Disposisi</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>Bidang Tujuan</th>
+                                            <td>{{ $disposisi->bidangTujuan->nama }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Pegawai Tujuan</th>
+                                            <td>{{ $disposisi->pegawaiTujuan->nama_lengkap }} ({{ $disposisi->pegawaiTujuan->nip }})</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Sifat</th>
+                                            <td>
+                                                @if($disposisi->sifat == 'segera')
+                                                    <span class="badge badge-danger">Segera</span>
+                                                @elseif($disposisi->sifat == 'biasa')
+                                                    <span class="badge badge-info">Biasa</span>
+                                                @elseif($disposisi->sifat == 'sangat_segera')
+                                                    <span class="badge badge-info">Sangat Segera</span>
+                                                @elseif($disposisi->sifat == 'rahasia')
+                                                    <span class="badge badge-info">Rahasia</span>
+                                                @elseif($disposisi->sifat == 'sangat_rahasia')
+                                                    <span class="badge badge-info">Sangat Rahasia</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tanggal Disposisi</th>
+                                            <td>{{ \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->locale('id')->translatedFormat('d F Y') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Catatan</th>
+                                            <td>{{ $disposisi->catatan }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-right mt-4">
+                            <button wire:click="resetForm" class="btn btn-secondary">Kembali</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+
+
 @if ($formAdd || $formEdit)
 <section class="section">
     <div class="section-header">
@@ -107,7 +205,7 @@
 </section>
 @endif
 
-@if (!$formAdd && !$formEdit)
+@if (!$formAdd && !$formEdit && !$formDetail)
 <section class="section">
     <div class="section-header">
         <h1>Data Surat Masuk</h1>

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->enum('status', ['disposisi','belum_disposisi'])->default('belum_disposisi');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

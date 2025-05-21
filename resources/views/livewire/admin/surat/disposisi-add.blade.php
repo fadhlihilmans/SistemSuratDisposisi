@@ -393,9 +393,9 @@
                                     @forelse ($listDisposisi as $item)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration + ($listDisposisi->firstItem() - 1) }}</td>
-                                        <td>{{ $item->suratMasuk->no_surat }}</td>
-                                        <td>{{ $item->suratMasuk->perihal }}</td>
-                                                                          <td>{{ $item->bidangTujuan->nama ?? '-' }}</td>
+                                        <td>{{ $item->suratMasuk->no_surat ?? '-' }}</td>
+                                        <td>{{ $item->suratMasuk->perihal ?? '-' }}</td>
+                                        <td>{{ $item->bidangTujuan->nama ?? '-' }}</td>
                                         <td>{{ $item->pegawaiTujuan->nama_lengkap ?? '-' }}</td>
                                         <td>
                                             @if($item->sifat == 'segera')
