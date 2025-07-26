@@ -50,7 +50,7 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
-### 6️⃣ Runing
+### 6️⃣ LetsGoooo
 
 ```bash
 php artisan serve
