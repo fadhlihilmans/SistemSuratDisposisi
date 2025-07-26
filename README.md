@@ -59,7 +59,7 @@ php artisan serve
 
 ## 🛠️ Akses Admin
 
--   URL: [http://localhost:8000)
+-   URL: `http://localhost:8000`
 -   **Default Login Account**:
     -   username (pilih salah satu): `admin`, `kepala`, `sekretariat`, `pegawai_1`, `pegawai_2`
     -   Password: `12345678`
