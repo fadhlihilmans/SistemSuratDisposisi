@@ -36,4 +36,4 @@
   <script src="/assets/js/page/forms-advanced-forms.js"></script>
   <script src="/assets/js/page/index-0.js"></script>
   <script type="text/javascript" src="/assets/toastify/toastify.min.js"></script>
- 
+  <script type="text/javascript" src="/assets/sweetalert/sweetalert.js"></script>

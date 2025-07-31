@@ -1,6 +1,6 @@
 
-  <!-- toast -->
-  <script>
+  <!-- toastify -->
+  {{-- <script>
         document.addEventListener('livewire:init', () => {
             Livewire.on('success-message', (event) => {
                 Toastify({
@@ -75,5 +75,69 @@
                     color: "#fff"
                 }
             }).showToast();
+        </script>
+  @endif --}}
+
+  <!-- sweetalert -->
+  <script>
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('success-message', (event) => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: event,
+                timer: 3000,
+                // showConfirmButton: false,
+                // toast: true,
+                // position: 'top-end',
+                // background: '#e6ffed',
+                // color: '#2e7d32'
+            });
+        });
+
+        Livewire.on('failed-message', (event) => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: event,
+                timer: 3000,
+                // showConfirmButton: false,
+                // toast: true,
+                // position: 'top-end',
+                // background: '#ffebee',
+                // color: '#c62828'
+            });
+        });
+    });
+  </script>
+
+  @if (session('success-message'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: "{{ session('success-message') }}",
+            timer: 3000,
+            showConfirmButton: false,
+            toast: true,
+            position: 'top-end',
+            background: '#e6ffed',
+            color: '#2e7d32'
+        });
+    </script>
+  @endif
+  @if (session('failed-message'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: "{{ session('failed-message') }}",
+                timer: 3000,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end',
+                background: '#ffebee',
+                color: '#c62828'
+            });
         </script>
   @endif

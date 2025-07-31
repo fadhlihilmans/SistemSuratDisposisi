@@ -44,7 +44,8 @@
 
   {{-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script> --}}
   <script type="text/javascript" src="/assets/toastify/toastify.min.js"></script>
- 
+  <script type="text/javascript" src="/assets/sweetalert/sweetalert.js"></script>
+
   <!-- toast -->
   @include('components.layouts.toast')
 

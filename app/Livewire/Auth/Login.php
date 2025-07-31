@@ -36,6 +36,8 @@ class Login extends Component
                 return $this->redirect(route('admin.dashboard.admin-dashboard'));
             } else {
                 $this->dispatch('failed-message', 'Akun tidak ditemukan atau password salah.');
+                // $this->dispatchBrowserEvent('failed-message', ['message' => 'Terjadi kesalahan: ' . $th->getMessage()]);
+
             }
         } catch (\Throwable $th) {
             $this->dispatch('failed-message', 'Terjadi kesalahan: ' . $th->getMessage());

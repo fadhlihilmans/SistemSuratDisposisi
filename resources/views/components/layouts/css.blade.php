@@ -22,3 +22,5 @@
 <link rel="stylesheet" href="/assets/css/style.css">
 <link rel="stylesheet" href="/assets/css/mystyle.css">
 <link rel="stylesheet" href="/assets/css/components.css">
+
+  <script type="text/javascript" src="/assets/sweetalert/sweetalert.js"></script>
