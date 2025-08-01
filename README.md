@@ -70,7 +70,7 @@ php artisan serve
 
 -   PHP ^8.2
 -   Laravel 12.x
--   Livewire
+-   Livewire 3.x
 -   template admin :
 ```bash
 https://github.com/stisla/stisla
