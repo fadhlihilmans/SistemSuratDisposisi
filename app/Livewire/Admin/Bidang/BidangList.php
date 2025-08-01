@@ -35,15 +35,15 @@ class BidangList extends Component
 
     public function add()
     {
+        $this->validate([
+            'nama' => 'required|string|max:255|unique:bidang,nama',
+            'keterangan' => 'required',
+        ], [
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.unique' => 'Nama sudah digunakan.',
+            'keterangan.required' => 'Keterangan wajib diisi.',
+        ]);
         try {
-            $this->validate([
-                'nama' => 'required|string|max:255|unique:bidang,nama',
-                'keterangan' => 'required',
-            ], [
-                'nama.required' => 'Nama wajib diisi.',
-                'nama.unique' => 'Nama sudah digunakan.',
-                'keterangan.required' => 'Keterangan wajib diisi.',
-            ]);
     
             Bidang::create([
                 'nama' => $this->nama,
@@ -68,15 +68,15 @@ class BidangList extends Component
 
     public function update()
     {
+        $this->validate([
+            'nama' => 'required|string|max:255|unique:bidang,nama,' . $this->bidang_id,
+            'keterangan' => 'required',
+        ], [
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.unique' => 'Nama sudah digunakan.',
+            'keterangan.required' => 'Keterangan wajib diisi.',
+        ]);
         try {
-            $this->validate([
-                'nama' => 'required|string|max:255|unique:bidang,nama,' . $this->bidang_id,
-                'keterangan' => 'required',
-            ], [
-                'nama.required' => 'Nama wajib diisi.',
-                'nama.unique' => 'Nama sudah digunakan.',
-                'keterangan.required' => 'Keterangan wajib diisi.',
-            ]);
     
             $bidang = Bidang::findOrFail($this->bidang_id);
             $bidang->update([
@@ -117,5 +117,6 @@ class BidangList extends Component
         $this->bidang_id = '';
         $this->nama = '';
         $this->keterangan = '';
+        $this->resetErrorBag();
     }
 }

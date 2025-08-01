@@ -30,15 +30,15 @@ class JabatanList extends Component
 
     public function add()
     {
+        $this->validate([
+            'nama' => 'required|string|max:255|unique:jabatan,nama',
+            'keterangan' => 'required',
+        ], [
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.unique' => 'Nama sudah digunakan.',
+            'keterangan.required' => 'Keterangan wajib diisi.',
+        ]);
         try {
-            $this->validate([
-                'nama' => 'required|string|max:255|unique:jabatan,nama',
-                'keterangan' => 'required',
-            ], [
-                'nama.required' => 'Nama wajib diisi.',
-                'nama.unique' => 'Nama sudah digunakan.',
-                'keterangan.required' => 'Keterangan wajib diisi.',
-            ]);
     
             Jabatan::create([
                 'nama' => $this->nama,
@@ -63,15 +63,15 @@ class JabatanList extends Component
 
     public function update()
     {
+        $this->validate([
+            'nama' => 'required|string|max:255|unique:jabatan,nama,' . $this->jabatan_id,
+            'keterangan' => 'required',
+        ], [
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.unique' => 'Nama sudah digunakan.',
+            'keterangan.required' => 'Keterangan wajib diisi.',
+        ]);
         try {
-            $this->validate([
-                'nama' => 'required|string|max:255|unique:jabatan,nama,' . $this->jabatan_id,
-                'keterangan' => 'required',
-            ], [
-                'nama.required' => 'Nama wajib diisi.',
-                'nama.unique' => 'Nama sudah digunakan.',
-                'keterangan.required' => 'Keterangan wajib diisi.',
-            ]);
     
             $jabatan = Jabatan::findOrFail($this->jabatan_id);
             $jabatan->update([
@@ -112,5 +112,6 @@ class JabatanList extends Component
         $this->jabatan_id = '';
         $this->nama = '';
         $this->keterangan = '';
+        $this->resetErrorBag();
     }
 }

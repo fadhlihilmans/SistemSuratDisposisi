@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PersetujuanSuratKeluarAdd extends Component
 {
@@ -122,21 +123,23 @@ class PersetujuanSuratKeluarAdd extends Component
 
     public function add()
     {
+        $this->validate([
+            'surat_keluar_id' => 'required|exists:surat_keluar,id',
+            'pegawai_id' => 'required|exists:pegawai,id',
+            'status' => 'required|in:disetujui,ditolak',
+            'catatan' => 'nullable|string',
+        ], [
+            'surat_keluar_id.required' => 'Surat wajib dipilih.',
+            'surat_keluar_id.exists' => 'Surat tidak ditemukan.',
+            'pegawai_id.required' => 'Pegawai wajib dipilih.',
+            'pegawai_id.exists' => 'Pegawai tidak ditemukan.',
+            'status.required' => 'Status persetujuan wajib dipilih.',
+            'status.in' => 'Status persetujuan tidak valid.',
+        ]);
+
+        DB::beginTransaction();
+
         try {
-            $this->validate([
-                'surat_keluar_id' => 'required|exists:surat_keluar,id',
-                'pegawai_id' => 'required|exists:pegawai,id',
-                'status' => 'required|in:disetujui,ditolak',
-                'catatan' => 'nullable|string',
-            ], [
-                'surat_keluar_id.required' => 'Surat wajib dipilih.',
-                'surat_keluar_id.exists' => 'Surat tidak ditemukan.',
-                'pegawai_id.required' => 'Pegawai wajib dipilih.',
-                'pegawai_id.exists' => 'Pegawai tidak ditemukan.',
-                'status.required' => 'Status persetujuan wajib dipilih.',
-                'status.in' => 'Status persetujuan tidak valid.',
-            ]);
-            
             
             PersetujuanSuratKeluar::create([
                 'surat_keluar_id' => $this->surat_keluar_id,
@@ -153,6 +156,7 @@ class PersetujuanSuratKeluarAdd extends Component
             $this->resetForm();
             $this->dispatch('success-message', 'Data persetujuan berhasil ditambahkan.');
         } catch (\Throwable $th) {
+            DB::rollBack();
             $this->dispatch('failed-message', 'Terjadi kesalahan: ' . $th->getMessage());
         }
     }
@@ -184,27 +188,29 @@ class PersetujuanSuratKeluarAdd extends Component
 
     public function update()
     {
+        $this->validate([
+            'surat_keluar_id' => 'required|exists:surat_keluar,id',
+            'pegawai_id' => 'required|exists:pegawai,id',
+            'status' => 'required|in:disetujui,ditolak',
+            'catatan' => 'nullable|string',
+        ], [
+            'surat_keluar_id.required' => 'Surat wajib dipilih.',
+            'surat_keluar_id.exists' => 'Surat tidak ditemukan.',
+            'pegawai_id.required' => 'Pegawai wajib dipilih.',
+            'pegawai_id.exists' => 'Pegawai tidak ditemukan.',
+            'status.required' => 'Status persetujuan wajib dipilih.',
+            'status.in' => 'Status persetujuan tidak valid.',
+        ]);
+
+        DB::beginTransaction();
+
         try {
-            $this->validate([
-                'surat_keluar_id' => 'required|exists:surat_keluar,id',
-                'pegawai_id' => 'required|exists:pegawai,id',
-                'status' => 'required|in:disetujui,ditolak',
-                'catatan' => 'nullable|string',
-            ], [
-                'surat_keluar_id.required' => 'Surat wajib dipilih.',
-                'surat_keluar_id.exists' => 'Surat tidak ditemukan.',
-                'pegawai_id.required' => 'Pegawai wajib dipilih.',
-                'pegawai_id.exists' => 'Pegawai tidak ditemukan.',
-                'status.required' => 'Status persetujuan wajib dipilih.',
-                'status.in' => 'Status persetujuan tidak valid.',
-            ]);
     
             $persetujuan = PersetujuanSuratKeluar::findOrFail($this->persetujuan_id);
             $persetujuan->update([
                 'status' => $this->status,
                 'catatan' => $this->catatan,
             ]);
-    
             
             $surat = SuratKeluar::findOrFail($this->surat_keluar_id);
             $surat->update(['status' => $this->status]);
@@ -212,6 +218,7 @@ class PersetujuanSuratKeluarAdd extends Component
             $this->resetForm();
             $this->dispatch('success-message', 'Data persetujuan berhasil diubah.');
         } catch (\Throwable $th) {
+            DB::rollBack();
             $this->dispatch('failed-message', 'Terjadi kesalahan: ' . $th->getMessage());
         }
     }
@@ -278,5 +285,7 @@ class PersetujuanSuratKeluarAdd extends Component
         $this->status = 'disetujui';
         $this->catatan = '';
         $this->tanggal_persetujuan = Carbon::now()->format('Y-m-d H:i:s');
+        $this->resetErrorBag();
+        // $this->resetValidation();
     }
 }

@@ -60,35 +60,36 @@ class PegawaiList extends Component
 
     public function add()
     {
+        $this->validate([
+            'nip' => 'required',
+            'username' => 'required|string|max:255|unique:users,username',
+            'email' => 'required|string|max:255|unique:users,email',
+            'jabatan_id' => 'required',
+            'bidang_id' => 'required',
+            'golongan_id' => 'required',
+            'nama_lengkap' => 'required|string|max:255|unique:pegawai,nama_lengkap',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'no_hp' => 'required|max:13',
+            'alamat' => 'required',
+        ], [
+            'nip.required' => 'NIP wajib diisi.',
+            'username.unique' => 'Username sudah digunakan.',
+            'email.unique' => 'Email sudah digunakan.',
+            'jabatan_id.required' => 'Jabatan wajib diisi.',
+            'bidang_id.required' => 'Bidang wajib diisi.',
+            'golongan_id.required' => 'golongan wajib diisi.',
+            'nama_lengkap.required' => 'Nama wajib diisi.',
+            'nama_lengkap.unique' => 'Nama sudah digunakan.',
+            'tempat_lahir.required' => 'Tempat Lahir wajib diisi.',
+            'tanggal_lahir.required' => 'Tanggl Lahir wajib diisi.',
+            'no_hp.required' => 'No HP wajib diisi.',
+            'alamat.required' => 'Alamat wajib diisi.',
+        ]);
+        
+        DB::beginTransaction();
+        
         try {
-            DB::beginTransaction();
-
-            $this->validate([
-                'nip' => 'required',
-                'username' => 'required|string|max:255|unique:users,username',
-                'email' => 'required|string|max:255|unique:users,email',
-                'jabatan_id' => 'required',
-                'bidang_id' => 'required',
-                'golongan_id' => 'required',
-                'nama_lengkap' => 'required|string|max:255|unique:pegawai,nama_lengkap',
-                'tempat_lahir' => 'required',
-                'tanggal_lahir' => 'required',
-                'no_hp' => 'required|max:13',
-                'alamat' => 'required',
-            ], [
-                'nip.required' => 'NIP wajib diisi.',
-                'username.unique' => 'Username sudah digunakan.',
-                'email.unique' => 'Email sudah digunakan.',
-                'jabatan_id.required' => 'Jabatan wajib diisi.',
-                'bidang_id.required' => 'Bidang wajib diisi.',
-                'golongan_id.required' => 'golongan wajib diisi.',
-                'nama_lengkap.required' => 'Nama wajib diisi.',
-                'nama_lengkap.unique' => 'Nama sudah digunakan.',
-                'tempat_lahir.required' => 'Tempat Lahir wajib diisi.',
-                'tanggal_lahir.required' => 'Tanggl Lahir wajib diisi.',
-                'no_hp.required' => 'No HP wajib diisi.',
-                'alamat.required' => 'Alamat wajib diisi.',
-            ]);
 
             $user = User::create([
                 'role_id' => '4',
@@ -140,35 +141,36 @@ class PegawaiList extends Component
 
     public function update()
     {
-        try {
-            DB::beginTransaction();
+        $this->validate([
+           'nip' => 'required',
+           'username' => 'required|string|max:255|unique:users,username,' . $this->pegawai_id,
+           'email' => 'required|string|max:255|unique:users,email,' . $this->pegawai_id,
+           'jabatan_id' => 'required',
+           'bidang_id' => 'required',
+           'golongan_id' => 'required',
+           'nama_lengkap' => 'required|string|max:255|unique:pegawai,nama_lengkap,' . $this->pegawai_id,
+           'tempat_lahir' => 'required',
+           'tanggal_lahir' => 'required',
+           'no_hp' => 'required|max:13',
+           'alamat' => 'required',
+        ], [
+            'nip.required' => 'NIP wajib diisi.',
+            'username.unique' => 'Username sudah digunakan.',
+            'email.unique' => 'Email sudah digunakan.',
+            'jabatan_id.required' => 'Jabatan wajib diisi.',
+            'bidang_id.required' => 'Bidang wajib diisi.',
+            'golongan_id.required' => 'Golongan wajib diisi.',
+            'nama_lengkap.required' => 'Nama wajib diisi.',
+            'nama_lengkap.unique' => 'Nama sudah digunakan.',
+            'tempat_lahir.required' => 'Tempat Lahir wajib diisi.',
+            'tanggal_lahir.required' => 'Tanggl Lahir wajib diisi.',
+            'no_hp.required' => 'No HP wajib diisi.',
+            'alamat.required' => 'Alamat wajib diisi.',
+        ]);
+        
+        DB::beginTransaction();
 
-            $this->validate([
-               'nip' => 'required',
-               'username' => 'required|string|max:255|unique:users,username,' . $this->pegawai_id,
-               'email' => 'required|string|max:255|unique:users,email,' . $this->pegawai_id,
-               'jabatan_id' => 'required',
-               'bidang_id' => 'required',
-               'golongan_id' => 'required',
-               'nama_lengkap' => 'required|string|max:255|unique:pegawai,nama_lengkap,' . $this->pegawai_id,
-               'tempat_lahir' => 'required',
-               'tanggal_lahir' => 'required',
-               'no_hp' => 'required|max:13',
-               'alamat' => 'required',
-            ], [
-                'nip.required' => 'NIP wajib diisi.',
-                'username.unique' => 'Username sudah digunakan.',
-                'email.unique' => 'Email sudah digunakan.',
-                'jabatan_id.required' => 'Jabatan wajib diisi.',
-                'bidang_id.required' => 'Bidang wajib diisi.',
-                'golongan_id.required' => 'Golongan wajib diisi.',
-                'nama_lengkap.required' => 'Nama wajib diisi.',
-                'nama_lengkap.unique' => 'Nama sudah digunakan.',
-                'tempat_lahir.required' => 'Tempat Lahir wajib diisi.',
-                'tanggal_lahir.required' => 'Tanggl Lahir wajib diisi.',
-                'no_hp.required' => 'No HP wajib diisi.',
-                'alamat.required' => 'Alamat wajib diisi.',
-            ]);
+        try {
     
             $pegawai = Pegawai::findOrFail($this->pegawai_id);
 
@@ -260,5 +262,6 @@ class PegawaiList extends Component
         $this->tanggal_lahir = '';
         $this->no_hp = '';
         $this->alamat = '';
+        $this->resetErrorBag();
     }
 }

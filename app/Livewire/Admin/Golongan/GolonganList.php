@@ -35,15 +35,16 @@ class GolonganList extends Component
 
     public function add()
     {
+        $this->validate([
+            'nama' => 'required|string|max:255|unique:golongan,nama',
+            'keterangan' => 'required',
+        ], [
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.unique' => 'Nama sudah digunakan.',
+            'keterangan.required' => 'Keterangan wajib diisi.',
+        ]);
+        
         try {
-            $this->validate([
-                'nama' => 'required|string|max:255|unique:golongan,nama',
-                'keterangan' => 'required',
-            ], [
-                'nama.required' => 'Nama wajib diisi.',
-                'nama.unique' => 'Nama sudah digunakan.',
-                'keterangan.required' => 'Keterangan wajib diisi.',
-            ]);
     
             Golongan::create([
                 'nama' => $this->nama,
@@ -68,15 +69,15 @@ class GolonganList extends Component
 
     public function update()
     {
+        $this->validate([
+            'nama' => 'required|string|max:255|unique:golongan,nama,' . $this->golongan_id,
+            'keterangan' => 'required',
+        ], [
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.unique' => 'Nama sudah digunakan.',
+            'keterangan.required' => 'Keterangan wajib diisi.',
+        ]);
         try {
-            $this->validate([
-                'nama' => 'required|string|max:255|unique:golongan,nama,' . $this->golongan_id,
-                'keterangan' => 'required',
-            ], [
-                'nama.required' => 'Nama wajib diisi.',
-                'nama.unique' => 'Nama sudah digunakan.',
-                'keterangan.required' => 'Keterangan wajib diisi.',
-            ]);
     
             $golongan = Golongan::findOrFail($this->golongan_id);
             $golongan->update([
@@ -117,5 +118,6 @@ class GolonganList extends Component
         $this->golongan_id = '';
         $this->nama = '';
         $this->keterangan = '';
+        $this->resetErrorBag();
     }
 }

@@ -69,22 +69,24 @@ class SuratKeluarList extends Component
 
     public function add()
     {
+        $this->validate([
+            'kode_surat_id' => 'required|exists:kode_surat,id',
+            'perihal' => 'required|string|max:255',
+            'tujuan' => 'required|string|max:255',
+            'tanggal_pengajuan' => 'required|date',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,xls,xlsx|max:512',
+        ],[
+            'kode_surat_id.required' => 'Kode Surat wajib diisi',
+            'perihal.required' => 'Perihal Surat wajib diisi',
+            'tujuan.required' => 'Tujuan Surat wajib diisi',
+            'tanggal_pengajuan.required' => 'Tanggal Pengajuan wajib diisi',
+            'file.mimes' => 'File harus berupa pdf, doc, docx, jpg, jpeg, png, webp, xls, xlsx',
+            'file.max' => 'Ukuran file maksimal 500kb',
+        ]);
+
+        DB::beginTransaction();
+
         try {
-            $this->validate([
-                'kode_surat_id' => 'required|exists:kode_surat,id',
-                'perihal' => 'required|string|max:255',
-                'tujuan' => 'required|string|max:255',
-                'tanggal_pengajuan' => 'required|date',
-                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,xls,xlsx|max:512',
-            ],[
-                'kode_surat_id.required' => 'Kode Surat wajib diisi',
-                'perihal.required' => 'Perihal Surat wajib diisi',
-                'tujuan.required' => 'Tujuan Surat wajib diisi',
-                'tanggal_pengajuan.required' => 'Tanggal Pengajuan wajib diisi',
-                'file.mimes' => 'File harus berupa pdf, doc, docx, jpg, jpeg, png, webp, xls, xlsx',
-                'file.max' => 'Ukuran file maksimal 500kb',
-            ]);
-    
             // $kode = KodeSurat::find($this->kode_surat_id)->kode;
             // $bulan = \Carbon\Carbon::parse($this->tanggal_pengajuan)->locale('id')->translatedFormat('F');
             // $tahun = date('Y', strtotime($this->tanggal_pengajuan));
@@ -116,6 +118,7 @@ class SuratKeluarList extends Component
             $this->resetForm();
             $this->dispatch('success-message', 'Data Berhasil ditambahkan.');
         } catch (\Throwable $th) {
+            DB::rollBack();
             $this->dispatch('failed-message', $th->getMessage());
         }
     }
@@ -139,21 +142,24 @@ class SuratKeluarList extends Component
 
     public function update()
     {
+        $this->validate([
+            'kode_surat_id' => 'required|exists:kode_surat,id',
+            'perihal' => 'required|string|max:255',
+            'tujuan' => 'required|string|max:255',
+            'tanggal_pengajuan' => 'required|date',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,xls,xlsx|max:512',
+        ],[
+            'kode_surat_id.required' => 'Kode Surat wajib diisi',
+            'perihal.required' => 'Perihal Surat wajib diisi',
+            'tujuan.required' => 'Tujuan Surat wajib diisi',
+            'tanggal_pengajuan.required' => 'Tanggal Pengajuan wajib diisi',   
+            'file.mimes' => 'File harus berupa pdf, doc, docx, jpg, jpeg, png, webp, xls, xlsx',
+            'file.max' => 'Ukuran file maksimal 500kb',
+        ]);
+
+        DB::beginTransaction();
+
         try {
-            $this->validate([
-                'kode_surat_id' => 'required|exists:kode_surat,id',
-                'perihal' => 'required|string|max:255',
-                'tujuan' => 'required|string|max:255',
-                'tanggal_pengajuan' => 'required|date',
-                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,xls,xlsx|max:512',
-            ],[
-                'kode_surat_id.required' => 'Kode Surat wajib diisi',
-                'perihal.required' => 'Perihal Surat wajib diisi',
-                'tujuan.required' => 'Tujuan Surat wajib diisi',
-                'tanggal_pengajuan.required' => 'Tanggal Pengajuan wajib diisi',   
-                'file.mimes' => 'File harus berupa pdf, doc, docx, jpg, jpeg, png, webp, xls, xlsx',
-                'file.max' => 'Ukuran file maksimal 500kb',
-            ]);
     
             $data = SuratKeluar::findOrFail($this->selectedId);
     
@@ -192,6 +198,7 @@ class SuratKeluarList extends Component
             $this->resetForm();
             $this->dispatch('success-message', 'Data Berhasil diperbarui.');
         } catch (\Throwable $th) {
+            DB::rollBack();
             $this->dispatch('failed-message', $th->getMessage());
         }
     }
@@ -262,5 +269,6 @@ class SuratKeluarList extends Component
         $this->old_file = '';
         $this->tanggal_pengajuan = '';
         $this->status = 'menunggu';
+        $this->resetErrorBag();
     }
 }

@@ -130,7 +130,6 @@
 </section>
 @endif
 
-<!-- Modal Konfirmasi Hapus -->
 @if ($confirmingDelete)
 <div class="modal fade show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.5)">
     <div class="modal-dialog" role="document">

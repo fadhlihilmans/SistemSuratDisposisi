@@ -35,16 +35,16 @@ class KodeSuratList extends Component
 
     public function add()
     {
+        $this->validate([
+            'kode' => 'required|string|max:255|unique:kode_surat,kode',
+            'keterangan' => 'required',
+        ], [
+            'kode.required' => 'kode wajib diisi.',
+            'kode.unique' => 'kode sudah digunakan.',
+            'keterangan.required' => 'Keterangan wajib diisi.',
+        ]);
+
         try {
-            $this->validate([
-                'kode' => 'required|string|max:255|unique:kode_surat,kode',
-                'keterangan' => 'required',
-            ], [
-                'kode.required' => 'kode wajib diisi.',
-                'kode.unique' => 'kode sudah digunakan.',
-                'keterangan.required' => 'Keterangan wajib diisi.',
-            ]);
-    
             KodeSurat::create([
                 'kode' => $this->kode,
                 'keterangan' => $this->keterangan,
@@ -68,16 +68,16 @@ class KodeSuratList extends Component
 
     public function update()
     {
-        try {
-            $this->validate([
-                'kode' => 'required|string|max:255|unique:kode_surat,kode,' . $this->kode_surat_id,
-                'keterangan' => 'required',
-            ], [
-                'kode.required' => 'kode wajib diisi.',
-                'kode.unique' => 'kode sudah digunakan.',
-                'keterangan.required' => 'Keterangan wajib diisi.',
-            ]);
+        $this->validate([
+            'kode' => 'required|string|max:255|unique:kode_surat,kode,' . $this->kode_surat_id,
+            'keterangan' => 'required',
+        ], [
+            'kode.required' => 'kode wajib diisi.',
+            'kode.unique' => 'kode sudah digunakan.',
+            'keterangan.required' => 'Keterangan wajib diisi.',
+        ]);
     
+        try {
             $kode_surat = KodeSurat::findOrFail($this->kode_surat_id);
             $kode_surat->update([
                 'kode' => $this->kode,
@@ -117,5 +117,6 @@ class KodeSuratList extends Component
         $this->kode_surat_id = '';
         $this->kode = '';
         $this->keterangan = '';
+        $this->resetErrorBag();
     }
 }

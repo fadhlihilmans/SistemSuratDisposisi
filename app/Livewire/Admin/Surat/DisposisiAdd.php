@@ -11,6 +11,7 @@ use App\Models\SuratMasuk;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class DisposisiAdd extends Component
 {
@@ -124,27 +125,29 @@ class DisposisiAdd extends Component
 
     public function add()
     {
+        $this->validate([
+            'surat_masuk_id' => 'required|exists:surat_masuk,id',
+            'bidang_tujuan' => 'required|exists:bidang,id',
+            'pegawai_tujuan' => 'required|exists:pegawai,id',
+            'sifat' => 'required',
+            'tanggal_disposisi' => 'required|date',
+            'catatan' => 'required',
+        ], [
+            'surat_masuk_id.required' => 'Surat wajib dipilih.',
+            'surat_masuk_id.exists' => 'Surat tidak ditemukan.',
+            'bidang_tujuan.required' => 'Bidang tujuan wajib dipilih.',
+            'bidang_tujuan.exists' => 'Bidang tujuan tidak ditemukan.',
+            'pegawai_tujuan.required' => 'Pegawai tujuan wajib dipilih.',
+            'pegawai_tujuan.exists' => 'Pegawai tujuan tidak ditemukan.',
+            'sifat.required' => 'Sifat disposisi wajib dipilih.',
+            'tanggal_disposisi.required' => 'Tanggal disposisi wajib diisi.',
+            'tanggal_disposisi.date' => 'Format tanggal tidak valid.',
+            'catatan.required' => 'Catatan wajib diisi.',
+        ]);
+
+        DB::beginTransaction();
+
         try {
-            $this->validate([
-                'surat_masuk_id' => 'required|exists:surat_masuk,id',
-                'bidang_tujuan' => 'required|exists:bidang,id',
-                'pegawai_tujuan' => 'required|exists:pegawai,id',
-                'sifat' => 'required',
-                'tanggal_disposisi' => 'required|date',
-                'catatan' => 'required',
-            ], [
-                'surat_masuk_id.required' => 'Surat wajib dipilih.',
-                'surat_masuk_id.exists' => 'Surat tidak ditemukan.',
-                'bidang_tujuan.required' => 'Bidang tujuan wajib dipilih.',
-                'bidang_tujuan.exists' => 'Bidang tujuan tidak ditemukan.',
-                'pegawai_tujuan.required' => 'Pegawai tujuan wajib dipilih.',
-                'pegawai_tujuan.exists' => 'Pegawai tujuan tidak ditemukan.',
-                'sifat.required' => 'Sifat disposisi wajib dipilih.',
-                'tanggal_disposisi.required' => 'Tanggal disposisi wajib diisi.',
-                'tanggal_disposisi.date' => 'Format tanggal tidak valid.',
-                'catatan.required' => 'Catatan wajib diisi.',
-            ]);
-    
             
             Disposisi::create([
                 'surat_masuk_id' => $this->surat_masuk_id,
@@ -155,13 +158,13 @@ class DisposisiAdd extends Component
                 'catatan' => $this->catatan,
             ]);
             
-            
             $surat = SuratMasuk::findOrFail($this->surat_masuk_id);
             $surat->update(['status' => 'disposisi']);
     
             $this->resetForm();
             $this->dispatch('success-message', 'Data berhasil ditambahkan.');
         } catch (\Throwable $th) {
+            DB::rollBack();
             $this->dispatch('failed-message', 'Terjadi kesalahan: ' . $th->getMessage());
         }
     }
@@ -197,27 +200,29 @@ class DisposisiAdd extends Component
 
     public function update()
     {
+        $this->validate([
+            'surat_masuk_id' => 'required|exists:surat_masuk,id',
+            'bidang_tujuan' => 'required|exists:bidang,id',
+            'pegawai_tujuan' => 'required|exists:pegawai,id',
+            'sifat' => 'required',
+            'tanggal_disposisi' => 'required|date',
+            'catatan' => 'required',
+        ], [
+            'surat_masuk_id.required' => 'Surat wajib dipilih.',
+            'surat_masuk_id.exists' => 'Surat tidak ditemukan.',
+            'bidang_tujuan.required' => 'Bidang tujuan wajib dipilih.',
+            'bidang_tujuan.exists' => 'Bidang tujuan tidak ditemukan.',
+            'pegawai_tujuan.required' => 'Pegawai tujuan wajib dipilih.',
+            'pegawai_tujuan.exists' => 'Pegawai tujuan tidak ditemukan.',
+            'sifat.required' => 'Sifat disposisi wajib dipilih.',
+            'tanggal_disposisi.required' => 'Tanggal disposisi wajib diisi.',
+            'tanggal_disposisi.date' => 'Format tanggal tidak valid.',
+            'catatan.required' => 'Catatan wajib diisi.',
+        ]);
+
+        DB::beginTransaction();
+
         try {
-            $this->validate([
-                'surat_masuk_id' => 'required|exists:surat_masuk,id',
-                'bidang_tujuan' => 'required|exists:bidang,id',
-                'pegawai_tujuan' => 'required|exists:pegawai,id',
-                'sifat' => 'required',
-                'tanggal_disposisi' => 'required|date',
-                'catatan' => 'required',
-            ], [
-                'surat_masuk_id.required' => 'Surat wajib dipilih.',
-                'surat_masuk_id.exists' => 'Surat tidak ditemukan.',
-                'bidang_tujuan.required' => 'Bidang tujuan wajib dipilih.',
-                'bidang_tujuan.exists' => 'Bidang tujuan tidak ditemukan.',
-                'pegawai_tujuan.required' => 'Pegawai tujuan wajib dipilih.',
-                'pegawai_tujuan.exists' => 'Pegawai tujuan tidak ditemukan.',
-                'sifat.required' => 'Sifat disposisi wajib dipilih.',
-                'tanggal_disposisi.required' => 'Tanggal disposisi wajib diisi.',
-                'tanggal_disposisi.date' => 'Format tanggal tidak valid.',
-                'catatan.required' => 'Catatan wajib diisi.',
-            ]);
-    
             $disposisi = Disposisi::findOrFail($this->disposisi_id);
             $disposisi->update([
                 'bidang_tujuan' => $this->bidang_tujuan,
@@ -230,6 +235,7 @@ class DisposisiAdd extends Component
             $this->resetForm();
             $this->dispatch('success-message', 'Data berhasil diubah.');
         } catch (\Throwable $th) {
+            DB::rollBack();
             $this->dispatch('failed-message', 'Terjadi kesalahan: ' . $th->getMessage());
         }
     }
@@ -296,6 +302,7 @@ class DisposisiAdd extends Component
         $this->tanggal_disposisi = Carbon::now()->format('Y-m-d');
         $this->catatan = '';
         $this->pegawaiList = [];
+        $this->resetErrorBag();
     }
 
     public function share($id)
