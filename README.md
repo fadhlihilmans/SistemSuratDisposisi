@@ -68,7 +68,7 @@ php artisan serve
 
 ## ⚙️ Requirement
 
--   PHP 8.2
+-   PHP ^8.2
 -   Laravel 12.x
 -   Livewire
 -   template admin :
