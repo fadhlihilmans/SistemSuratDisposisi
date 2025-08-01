@@ -84,7 +84,7 @@
         Livewire.on('success-message', (event) => {
             Swal.fire({
                 icon: 'success',
-                title: 'Berhasil!',
+                title: 'Success!',
                 text: event,
                 timer: 3000,
                 // showConfirmButton: false,
@@ -98,7 +98,7 @@
         Livewire.on('failed-message', (event) => {
             Swal.fire({
                 icon: 'error',
-                title: 'Gagal!',
+                title: 'Whoops!',
                 text: event,
                 timer: 3000,
                 // showConfirmButton: false,
@@ -115,14 +115,14 @@
     <script>
         Swal.fire({
             icon: 'success',
-            title: 'Berhasil!',
+            title: 'Success!',
             text: "{{ session('success-message') }}",
             timer: 3000,
-            showConfirmButton: false,
-            toast: true,
-            position: 'top-end',
-            background: '#e6ffed',
-            color: '#2e7d32'
+            // showConfirmButton: false,
+            // toast: true,
+            // position: 'top-end',
+            // background: '#e6ffed',
+            // color: '#2e7d32'
         });
     </script>
   @endif
@@ -130,14 +130,14 @@
         <script>
             Swal.fire({
                 icon: 'error',
-                title: 'Gagal!',
+                title: 'Whoops!',
                 text: "{{ session('failed-message') }}",
                 timer: 3000,
-                showConfirmButton: false,
-                toast: true,
-                position: 'top-end',
-                background: '#ffebee',
-                color: '#c62828'
+                // showConfirmButton: false,
+                // toast: true,
+                // position: 'top-end',
+                // background: '#ffebee',
+                // color: '#c62828'
             });
         </script>
   @endif
