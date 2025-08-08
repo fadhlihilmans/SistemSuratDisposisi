@@ -292,7 +292,7 @@
                                         <td>{{ $item->user->email }}</td>
                                         <td>{{ $item->golongan->nama }}</td>
                                         <td>{{ $item->bidang->nama }}</td>
-                                        <td>{{ $item->jabatan->nama }}</td>
+                                        <td>{{ $item->jabatan->nama ?? '-' }}</td>
                                         <td>
                                             <div class="btn-group" role="group">
                                                 <button wire:click="detail({{ $item->id }})" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>

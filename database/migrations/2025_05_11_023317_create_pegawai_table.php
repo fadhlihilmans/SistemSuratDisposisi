@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pegawai', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreignId('jabatan_id')->references('id')->on('jabatan')->cascadeOnDelete();
+            $table->foreignId('jabatan_id')->references('id')->on('jabatan')->restrictOnDelete();
             $table->foreignId('bidang_id')->references('id')->on('bidang')->cascadeOnDelete();
             $table->foreignId('golongan_id')->references('id')->on('golongan')->cascadeOnDelete();
             $table->string('nip');
