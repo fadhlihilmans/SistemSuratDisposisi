@@ -25,6 +25,7 @@ class LaporanSurat extends Component
 
     public function mount()
     {
+        $this->resetFilters();
         
         // Set default date range to current month if not set
         if (empty($this->tanggalAwal)) {
