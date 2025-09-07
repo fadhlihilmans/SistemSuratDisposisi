@@ -9,7 +9,7 @@
 
   <link rel="icon" type="image/png" sizes="16x16" href="/logo.webp">
 
-  @include('components.layouts.css')
+  <x-layouts.css/>
   
 </head>
 
@@ -18,26 +18,24 @@
     <div class="main-wrapper">
       <div class="navbar-bg"></div>
 
-      @include('components.layouts.navbar')
-
-      @include('components.layouts.sidebar')
+      <x-layouts.navbar/>
+      <x-layouts.sidebar/>
 
       <!-- Main Content -->
       <div class="main-content">
        {{ $slot }}
       </div>
 
-      @include('components.layouts.footer')
+      <x-layouts.footer/>
 
     </div>
 
-    @include('components.layouts.logout-modal')
+    <x-layouts.logout-modal/>
 
   </div>
 
-  @include('components.layouts.scripts')
-
-  @include('components.layouts.toast')
+    <x-layouts.scripts/>
+    <x-layouts.toast/>
 
   @stack('scripts')
 </body>

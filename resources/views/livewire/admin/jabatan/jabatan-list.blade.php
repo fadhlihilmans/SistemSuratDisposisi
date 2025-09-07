@@ -21,7 +21,7 @@
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nama Jabatan</label>
                                 <div class="col-sm-12 col-md-7">
                                     <input type="text" class="form-control" wire:model.defer="nama">
-                                    @error('nama') <small class="text-danger">{{ $message }}</small> @enderror
+                                    @error('nama') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
                             </div>
 

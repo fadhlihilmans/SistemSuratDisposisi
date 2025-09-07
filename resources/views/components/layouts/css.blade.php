@@ -15,12 +15,12 @@
 <link rel="stylesheet" href="/assets/etc/selectric/public/selectric.css">
 <link rel="stylesheet" href="/assets/etc/bootstrap-timepicker/css/bootstrap-timepicker.min.css">
 <link rel="stylesheet" href="/assets/etc/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
-{{-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"> --}}
-<link rel="stylesheet" type="text/css" href="/assets/toastify/toastify.min.css">
 
 <!-- Template CSS -->
 <link rel="stylesheet" href="/assets/css/style.css">
 <link rel="stylesheet" href="/assets/css/mystyle.css">
 <link rel="stylesheet" href="/assets/css/components.css">
 
-  <script type="text/javascript" src="/assets/sweetalert/sweetalert.js"></script>
+{{-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"> --}}
+<link rel="stylesheet" type="text/css" href="/assets/toastify/toastify.min.css">
+<script type="text/javascript" src="/assets/sweetalert/sweetalert.js"></script>
