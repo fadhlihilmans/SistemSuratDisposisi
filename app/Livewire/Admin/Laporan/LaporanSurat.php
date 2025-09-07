@@ -14,7 +14,7 @@ class LaporanSurat extends Component
 
     public $search = '';
     public $tipeSurat = 'surat_masuk'; 
-    // default to surat_masuk
+    
     public $status = '';
     public $tanggalAwal = '';
     public $tanggalAkhir = '';
@@ -27,7 +27,7 @@ class LaporanSurat extends Component
     {
         $this->resetFilters();
         
-        // Set default date range to current month if not set
+        
         if (empty($this->tanggalAwal)) {
             $this->tanggalAwal = Carbon::now()->startOfMonth()->format('Y-m-d');
         }
@@ -40,7 +40,7 @@ class LaporanSurat extends Component
     public function updatedTipeSurat()
     {
         
-        // Reset status when changing letter type
+        
         $this->status = '';
         $this->resetPage();
     }
@@ -150,13 +150,13 @@ class LaporanSurat extends Component
             ->search($this->search);
         
         
-            // Apply date filter
+            
         if ($this->tanggalAwal && $this->tanggalAkhir) {
             $query->whereBetween('tanggal_masuk', [$this->tanggalAwal, $this->tanggalAkhir]);
         }
         
         
-        // Apply status filter
+        
         if ($this->status) {
             $query->where('status', $this->status);
         }
@@ -170,13 +170,13 @@ class LaporanSurat extends Component
             ->search($this->search);
         
         
-            // Apply date filter
+            
         if ($this->tanggalAwal && $this->tanggalAkhir) {
             $query->whereBetween('tanggal_pengajuan', [$this->tanggalAwal, $this->tanggalAkhir]);
         }
         
         
-        // Apply status filter
+        
         if ($this->status) {
             $query->where('status', $this->status);
         }
